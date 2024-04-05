@@ -17,7 +17,7 @@ This project is a backend application developed using Django, providing a platfo
 - Python 🐍
 - Django 🌐
 - Django Rest Framework 🛠️
-- PostgreSQL (or any other compatible database) 🐘
+- MySQL 🐬
 - Git 📜
 
 This project aims to streamline the blood donation process, making it easier for donors and recipients to connect and fulfill critical blood donation needs.
