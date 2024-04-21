@@ -16,7 +16,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=15)
     date_of_birth = models.DateField()
     address = models.TextField(max_length=255, blank=True)
-    city = models.CharField(max_length=100)
+    city = models.ForeignKey('City', on_delete=models.CASCADE)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
 
@@ -31,7 +31,7 @@ class BloodDonor(models.Model):
 class BloodBank(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
+    city = models.ForeignKey('City', on_delete=models.CASCADE)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     email = models.EmailField()
@@ -56,3 +56,6 @@ class DonationHistory(models.Model):
     receiving_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
 
 
+class City(models.Model):
+    name = models.CharField(max_length=255)
+    pincode = models.CharField(max_length=255, blank=True)
