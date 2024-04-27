@@ -30,13 +30,13 @@ class BloodDonor(models.Model):
 
 class BloodBank(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, blank=True, default='')
     city = models.ForeignKey('City', on_delete=models.CASCADE)
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     email = models.EmailField()
     phone_number = models.CharField(max_length=15)
-    license_number = models.CharField(max_length=50)
+    license_number = models.CharField(max_length=50, blank=True, default='')
 
 
 class DonationRequest(models.Model):

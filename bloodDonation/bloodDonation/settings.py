@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backend'
+    'backend',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -110,8 +111,31 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+#For Logging the Queries
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     },
+# }
+
 USE_TZ = True
 
+# LOGGING['loggers']['django.db.backends'] = {
+#     'handlers': ['console'],
+#     'level': 'DEBUG',
+#     'propagate': False,
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
