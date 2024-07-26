@@ -1,7 +1,7 @@
-
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from backend.models import Profile, User
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -19,7 +19,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+
+        Profile.objects.create(user=user)
+        
         return user
+
 
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -39,3 +43,11 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Must include both username and password")
 
         return data
+
+
+class ProfileSerializer(serializers.Serializer):
+
+    class Meta:
+       model = Profile
+       fields = '__all__'
+       read_only = ['user']

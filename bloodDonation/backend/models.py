@@ -13,12 +13,15 @@ User._meta.get_field('user_permissions').remote_field.related_name = 'user_permi
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15)
-    date_of_birth = models.DateField()
+    phone_number = models.CharField(max_length=15, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     address = models.TextField(max_length=255, blank=True)
-    city = models.ForeignKey('City', on_delete=models.CASCADE)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    city = models.ForeignKey('City', on_delete=models.CASCADE, null=True, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class BloodDonor(models.Model):

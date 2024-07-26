@@ -1,1 +1,19 @@
 myvenv
+
+# Ignore compiled Python files
+.pyc
+
+# Ignore __pycache__ directories
+__pycache__/
+
+# Ignore other common files and directories
+*.pyo
+*.pyd
+*.swp
+.DS_Store
+*.log
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
