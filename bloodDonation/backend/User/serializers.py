@@ -45,7 +45,7 @@ class UserLoginSerializer(serializers.Serializer):
         return data
 
 
-class ProfileSerializer(serializers.Serializer):
+class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
        model = Profile

@@ -40,19 +40,19 @@ class UserLoginViewSet(viewsets.ViewSet):
 class UserProfileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
-    def retrieve(self, request):
+    def retrieve(self, request, pk=None):
         print(vars(request));
         try:
-            profile = Profile.objects.get(user=request.user)
+            profile = Profile.objects.get(pk=pk)
             serializer = ProfileSerializer(profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
             return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
             
-    def update(self, request):
+    def partial_update(self, request, pk=None):
         try:
-            profile = Profile.objects.get(user=request.user)
-            serializer = ProfileSerializer(profile, data=request.data)
+            profile = Profile.objects.get(pk=pk)
+            serializer = ProfileSerializer(profile, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
