@@ -21,5 +21,6 @@ from rest_framework import routers
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('backend.User.urls')),
+    path('bloodBanks/', include('backend.BloodBanks.urls')),
 ]
 routers = routers.DefaultRouter()

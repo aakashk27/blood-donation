@@ -23,3 +23,10 @@ class BloodBank(admin.ModelAdmin):
     search_fields = ('name', 'city__name', 'state', 'country', 'email', 'phone_number', 'license_number')
     list_filter = ('city', 'state', 'country')
     list_per_page = 10
+
+admin.site.register(City)
+class City(admin.ModelAdmin):
+    list_display = ('name', 'pincode')
+    list_filter = ('state', 'pincode')
+    search_fields = ('name', 'pincode')
+    list_per_page = 10

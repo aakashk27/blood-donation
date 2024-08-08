@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from backend.models import Profile, User
+from backend.models import BloodDonor, Profile, User
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email', 'is_donor', 'is_recipient')
+        fields = '__all__'
 
     def create(self, validated_data):
         user = User.objects.create(
