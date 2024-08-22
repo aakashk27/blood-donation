@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from backend.User.serializers import ProfileSerializer, UserLoginSerializer, UserRegistrationSerializer
-from backend.models import Profile, User
+from backend.models import Profile
 
 import logging
 

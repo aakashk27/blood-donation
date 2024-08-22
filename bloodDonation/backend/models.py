@@ -41,6 +41,9 @@ class BloodBank(models.Model):
     phone_number = models.CharField(max_length=15)
     license_number = models.CharField(max_length=50, blank=True, default='')
 
+    def __str__(self):
+        return f'{self.name} - {self.bank_city.name}'
+
 
 class DonationRequest(models.Model):
     requested_by = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -50,6 +53,15 @@ class DonationRequest(models.Model):
     status = models.CharField(max_length=20, default='pending')
     creation_date = models.DateField(auto_now_add=True)
     fulfillment_date = models.DateField(null=True, blank=True)
+
+
+class BloodInventory(models.Model):
+    blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
+    blood_group = models.CharField(max_length=5)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.blood_bank.name} - {self.blood_group}'
 
 
 class DonationHistory(models.Model):
