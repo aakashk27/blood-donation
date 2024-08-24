@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from backend.models import BloodDonor, Profile, User
+from backend.models import DonationRequest, Profile, User
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -51,3 +51,11 @@ class ProfileSerializer(serializers.ModelSerializer):
        model = Profile
        fields = '__all__'
        read_only = ['user']
+
+
+class RequestBloodDonationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = DonationRequest
+        fields = '__all__'
+        read_only = ['user']

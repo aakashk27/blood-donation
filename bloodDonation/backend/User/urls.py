@@ -1,12 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserRegistrationViewSet, UserLoginViewSet, UserProfileViewSet
+from .views import BloodDonationRequest, UserRegistrationViewSet, UserLoginViewSet, UserProfileViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register('register', UserRegistrationViewSet, basename='user-registration')
 router.register('login', UserLoginViewSet, basename='user-login')
 router.register('profile', UserProfileViewSet, basename='user-profile')
+router.register('donation-request', BloodDonationRequest, basename='donation-request')
 
 urlpatterns = [
     path('api/', include(router.urls)),

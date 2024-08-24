@@ -39,3 +39,12 @@ class BloodInventory(admin.ModelAdmin):
     search_fields = ('blood_bank__name', 'blood_group')
     list_filter = ('quantity', )
     list_per_page = 10
+
+
+@admin.register(DonationRequest)
+class DonationRequest(admin.ModelAdmin):
+    list_display = ('requested_by', 'blood_group', 'quantity', 'location', 'status', 'creation_date', 'fulfillment_date')
+    list_select_related = ('requested_by',)
+    search_fields = ('requested_by__username', 'requested_by__email', 'location')
+    list_filter = ('status', 'creation_date', 'fulfillment_date')
+    list_per_page = 10
