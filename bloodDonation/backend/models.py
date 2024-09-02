@@ -55,6 +55,13 @@ class DonationRequest(models.Model):
     fulfillment_date = models.DateField(null=True, blank=True)
 
 
+class CompleteDonationRequest(models.Model):
+    requested_by = models.ForeignKey(DonationRequest, on_delete=models.CASCADE)
+    donor = models.ForeignKey(BloodDonor, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    donation_date = models.DateField(auto_now_add=True)
+
+
 class BloodInventory(models.Model):
     blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     blood_group = models.CharField(max_length=5)
