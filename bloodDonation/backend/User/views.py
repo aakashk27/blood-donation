@@ -1,10 +1,11 @@
 # views.py
+import datetime
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from backend.User.serializers import ProfileSerializer, RequestBloodDonationSerializer, UserLoginSerializer, UserRegistrationSerializer
-from backend.models import Profile
+from backend.models import BloodDonor, CompleteDonationRequest, DonationRequest, Profile
 
 import logging
 
@@ -71,5 +72,38 @@ class BloodDonationRequest(viewsets.ViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+
+class CompleteBloodDonationRequest(viewsets.ViewSet):
+
+    def create(self, request):
+        donor_id = request.data.get('donor_id')
+        blood_group = request.data.get('blood_group')
+        quantity = request.data.get('quantity')
+        donation_request_id = request.data.get('donation_request_id')
+
+        try:
+            donation_request = DonationRequest.objects.get(pk=donation_request_id)
+            donor = BloodDonor.objects.get(pk=donor_id, blood_group=blood_group, availability=True)
+
+            if donation_request.blood_group == blood_group and donation_request.quantity == quantity:
+                donation_request.status = 'fulfilled'
+                donation_request.fulfillment_date = datetime.datetime.now()
+                donation_request.save(update_fields=['status'])
+
+                CompleteDonationRequest.objects.create(
+                    requested_by=donation_request, 
+                    donor=donor, 
+                    quantity=quantity
+                )
+                
+                return Response({'message': 'Donation request fulfilled'}, status=status.HTTP_200_OK)
+            return Response({'error': 'Donation request not fulfilled'}, status=status.HTTP_400_BAD_REQUEST)
+        except DonationRequest.DoesNotExist:
+            return Response({'error': 'Donation request not found'}, status=status.HTTP_404_NOT_FOUND)
+        except BloodDonor.DoesNotExist:
+            return Response({'error': 'Donor not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
 
     

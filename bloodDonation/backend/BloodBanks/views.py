@@ -27,9 +27,7 @@ class BloodBank(viewsets.ViewSet):
         
         elif(request.query_params.get('blood_group')):
             blood_group = request.query_params.get('blood_group')
-            print(blood_group)
             queryset = BloodInventory.objects.filter(blood_group=blood_group).select_related('blood_bank')
-            print(queryset)
             serializer = BloodInventorySerializer(queryset, many=True)
             return Response(serializer.data)
 
