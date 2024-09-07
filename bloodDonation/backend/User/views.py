@@ -1,10 +1,11 @@
 # views.py
 import datetime
 from rest_framework import viewsets, status
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from backend.User.serializers import ProfileSerializer, RequestBloodDonationSerializer, UserLoginSerializer, UserRegistrationSerializer
+from backend.User.serializers import BloodDonorSerializer, ProfileSerializer, RequestBloodDonationSerializer, UserLoginSerializer, UserRegistrationSerializer
 from backend.models import BloodDonor, CompleteDonationRequest, DonationRequest, Profile
 
 import logging
@@ -64,15 +65,21 @@ class UserProfileViewSet(viewsets.ViewSet):
         except Profile.DoesNotExist:
             return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
 class BloodDonationRequest(viewsets.ViewSet):
+    pagination_class = PageNumberPagination
 
     def create(self, request):
         serializer = RequestBloodDonationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+    
+    def list(self, request):
+        blood_donors  = BloodDonor.objects.filter(availability=True).select_related('user__profile')
+        serializer = BloodDonorSerializer(blood_donors, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+       
+       
 
 class CompleteBloodDonationRequest(viewsets.ViewSet):
 

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,16 @@ INSTALLED_APPS = [
     'backend',
     'rest_framework_simplejwt',
 ]
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Set access token to expire in 60 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Set refresh token to expire in 7 days
+    'ROTATE_REFRESH_TOKENS': False,                  # Keep refresh tokens valid even after they are used
+    'BLACKLIST_AFTER_ROTATION': False,               # Blacklist refresh tokens after use (set to True if you want that)
+    'ALGORITHM': 'HS256',                            # Ensure the algorithm is HS256
+    'SIGNING_KEY': SECRET_KEY,                       # Signing key for tokens
+    'AUTH_HEADER_TYPES': ('Bearer',),                # Use 'Bearer' in Authorization headers
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,22 +136,22 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 #For Logging the Queries
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django.db.backends': {
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
 
 USE_TZ = True
 
