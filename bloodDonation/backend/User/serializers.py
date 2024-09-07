@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from backend.models import DonationRequest, Profile, User
+from backend.models import BloodDonor, DonationRequest, Profile, User
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -11,6 +11,10 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        if validated_data['is_donor'] == True:
+            if 'blood_group' not in validated_data:
+                raise serializers.ValidationError("Blood group is required for donors")
+        
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -21,6 +25,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
 
         user_profile=Profile.objects.create(user=user)
+
+        if user.is_donor:
+            BloodDonor.objects.create(user=user, blood_group=validated_data['blood_group'])
 
         return user_profile
 
@@ -58,4 +65,14 @@ class RequestBloodDonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = DonationRequest
         fields = '__all__'
+        read_only = ['user']
+
+
+class BloodDonorSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user.username')
+    phone = serializers.CharField(source='user.profile.phone_number')
+
+    class Meta:
+        model = BloodDonor
+        fields = ['user_name', 'blood_group', 'phone', 'availability', 'last_donation_date']
         read_only = ['user']

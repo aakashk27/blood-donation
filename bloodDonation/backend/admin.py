@@ -41,6 +41,15 @@ class BloodInventory(admin.ModelAdmin):
     list_per_page = 10
 
 
+@admin.register(BloodDonor)
+class BloodDonor(admin.ModelAdmin):
+    list_display = ('user', 'blood_group', 'availability', 'last_donation_date')
+    list_select_related = ('user',)
+    search_fields = ('user__username', 'user__email', 'blood_group')
+    list_filter = ('blood_group', 'availability', 'last_donation_date')
+    list_per_page = 10
+
+
 @admin.register(DonationRequest)
 class DonationRequest(admin.ModelAdmin):
     list_display = ('requested_by', 'blood_group', 'quantity', 'location', 'status', 'creation_date', 'fulfillment_date')

@@ -6,6 +6,7 @@ class User(AbstractUser):
     is_donor = models.BooleanField(default=False)
     is_recipient = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    blood_group = models.CharField(max_length=5, blank=True)
 
 User._meta.get_field('groups').remote_field.related_name = 'user_group_set'
 User._meta.get_field('user_permissions').remote_field.related_name = 'user_permission_set'
