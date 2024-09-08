@@ -93,10 +93,13 @@ class CompleteBloodDonationRequest(viewsets.ViewSet):
             donation_request = DonationRequest.objects.get(pk=donation_request_id)
             donor = BloodDonor.objects.get(pk=donor_id, blood_group=blood_group, availability=True)
 
-            if donation_request.blood_group == blood_group and donation_request.quantity == quantity:
+            if donation_request.blood_group == blood_group :
                 donation_request.status = 'fulfilled'
+                donation_request.quantity = max(0 , donation_request.quantity - quantity)
                 donation_request.fulfillment_date = datetime.datetime.now()
-                donation_request.save(update_fields=['status'])
+                donor.last_donation_date = datetime.datetime.now()
+                donation_request.save(update_fields=['status', 'quantity', 'fulfillment_date'])
+                donor.save(update_fields=['last_donation_date'])
 
                 CompleteDonationRequest.objects.create(
                     requested_by=donation_request, 

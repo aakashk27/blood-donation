@@ -135,6 +135,10 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+
+SENDINBLUE_API_KEY = ''
+
+
 #For Logging the Queries
 # LOGGING = {
 #     'version': 1,
