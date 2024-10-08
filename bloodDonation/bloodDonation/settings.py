@@ -136,7 +136,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 
-SENDINBLUE_API_KEY = ''
+SENDINBLUE_API_KEY = 'demokey'
 
 
 #For Logging the Queries
